@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class AliceController {
     private static final Logger log = LoggerFactory.getLogger(AliceController.class);
@@ -21,9 +24,17 @@ public class AliceController {
         return "world";
     }
 
-    @PostMapping("/hello")
-    public String helloPost(@RequestBody String body) {
-        log.warn(body);
-        return "Hello Yandex";
+    @PostMapping(value = "/hello")
+    public Map<String, Object> helloPost(@RequestBody HashMap<String, Object> body) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("session", body.get("session"));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("text", "Привет! Это я!");
+        response.put("tts", "Привет! Это я!");
+        response.put("end_session", false);
+        result.put("response", response);
+        result.put("version", "1.0");
+        return result;
     }
 }
