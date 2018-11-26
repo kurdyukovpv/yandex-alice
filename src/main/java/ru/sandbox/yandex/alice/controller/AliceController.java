@@ -26,15 +26,33 @@ public class AliceController {
 
     @PostMapping(value = "/hello")
     public Map<String, Object> helloPost(@RequestBody HashMap<String, Object> body) {
+        return makeResponse(body);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> makeResponse(HashMap<String, Object> body) {
         Map<String, Object> result = new HashMap<>();
         result.put("session", body.get("session"));
-
         Map<String, Object> response = new HashMap<>();
-        response.put("text", "Привет! Это я!");
-        response.put("tts", "Привет! Это я!");
-        response.put("end_session", false);
+        Map<String, Object> request = (Map<String, Object>) body.get("request");
+        var answer = getAnswer((String) request.get("command"));
+        response.put("text", answer);
+        response.put("tts", answer);
+        response.put("end_session", answer.equals("Пока!"));
         result.put("response", response);
         result.put("version", "1.0");
         return result;
+    }
+
+    private String getAnswer(String command) {
+        if (command.toLowerCase().contains("как дела")) {
+            return "Всё хорошо";
+        } else if (command.toLowerCase().contains("пока")) {
+            return "Нет нет и еще раз нет!";
+        } else if (command.toLowerCase().contains("стоп")) {
+            return "Пока!";
+        } else {
+            return "Не понял!";
+        }
     }
 }
