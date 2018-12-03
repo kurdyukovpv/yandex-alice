@@ -59,7 +59,7 @@ public class AliceController {
         } else if (command.toLowerCase().contains("тест")) {
             return "Запускаю сборку тестового стенда!";
         } else {
-            return "Не понял!";
+            return "Не поняла!";
         }
     }
 }
