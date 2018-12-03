@@ -32,7 +32,13 @@ public class AliceController {
         result.put("session", body.get("session"));
         Map<String, Object> response = new HashMap<>();
         Map<String, Object> request = (Map<String, Object>) body.get("request");
-        var answer = getAnswer((String) request.get("command"));
+        Map<String, Object> session = (Map<String, Object>) body.get("session");
+        var answer = "";
+        if ((Boolean) session.get("new")) {
+            answer = getAnswer("привет");
+        } else {
+            answer = getAnswer((String) request.get("command"));
+        }
         response.put("text", answer);
         response.put("tts", answer);
         response.put("end_session", answer.equals("Пока!"));
@@ -42,8 +48,10 @@ public class AliceController {
     }
 
     private String getAnswer(String command) {
-        if (command.toLowerCase().contains("как дела")) {
-            return "Всё хорошо";
+        if (command.toLowerCase().contains("привет")) {
+            return "Привет!";
+        } else if (command.toLowerCase().contains("как дела")) {
+            return "Отлично!";
         } else if (command.toLowerCase().contains("пока")) {
             return "Пока!";
         } else if (command.toLowerCase().contains("прод")) {
