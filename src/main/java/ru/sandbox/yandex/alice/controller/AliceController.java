@@ -1,7 +1,5 @@
 package ru.sandbox.yandex.alice.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 @RestController
 public class AliceController {
-    private static final Logger log = LoggerFactory.getLogger(AliceController.class);
 
     @GetMapping("/hello")
     public String helloGet() {
@@ -48,9 +45,11 @@ public class AliceController {
         if (command.toLowerCase().contains("как дела")) {
             return "Всё хорошо";
         } else if (command.toLowerCase().contains("пока")) {
-            return "Нет нет и еще раз нет!";
-        } else if (command.toLowerCase().contains("стоп")) {
             return "Пока!";
+        } else if (command.toLowerCase().contains("прод")) {
+            return "Запускаю сборку продакшена!";
+        } else if (command.toLowerCase().contains("тест")) {
+            return "Запускаю сборку тестового стенда!";
         } else {
             return "Не понял!";
         }
